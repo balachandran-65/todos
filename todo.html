@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpine js Works</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">   
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.1/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+ 
+<!-- Alpine Core -->
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<style>
+    td{
+        width:200px;
+        background-color: rgb(204, 212, 194);
+        /* margin-top: 10px; */
+        margin-left: 5px;
+    }
+    table{
+        margin-top: 20px;
+    }
+    .td-4{
+        background-color: none;
+        padding-left: 130px;
+        }
+    .ggg{
+        text-decoration: line-through;
+        color: rgb(3, 8, 39);
+    }
+    
+    
+</style>
+</head>
+<body class="py-20 pl-20">
+   
+
+<div x-data="{ 
+   
+    task_val:'',
+    totaltask:$persist([]),
+   
+    
+    store(){
+        if(this.task_val){
+       this.totaltask.push({
+        task:this.task_val,
+        completed:false
+    
+    })
+    this.task_val=''
+    }
+    
+    return this.totaltask
+       
+  }
+
+}">
+    <b class=" text-blue-600"> Todo Simple Operation:</b>
+    <br>
+    <div class="flex">
+        <input type="text" id="input" class="w-80 h-20 bg-gray-100 shadow-md rounded-md" placeholder="Enter task" x-model="task_val" @keyup.enter="store">
+        <button class=" w-40 h-20 bg-green-600 rounded-md shadow-md " x-on:click="store"  >Insert</button>
+        <!-- total task value show here -->
+        <div class="w-20 h-20 ml-8 flex  justify-evenly items-center bg-green-200 rounded-md"  >TOTAL<b class=" mt-25" x-text="totaltask.length"></b></div>
+    </div>
+    <!-- add task using x-for  -->
+    <template x-for="(gettask,index) in totaltask" :key="index" class="bg-red-200">
+         <!--add row  -->
+        <div :id="gettask" 
+           class="flex justify-between items-center w-2/4 bg-gray-100 border-green-300 m-2 hover:bg-gray-300"
+            x-data="{
+            check_click:false
+         
+           
+
+           }">
+          
+            <tr  class=" w-2/2 bg-black-500 flex items-center " >
+                
+                <td class="1td">
+                    <div >
+                        <input  class="w-10 h-5 " @change="check_click=!check_click"  type="checkbox" placeholder="Enter task">
+                      <!-- is completed message show here -->
+                      <span id="complete_message"  x-text="check_click?'is completed':''"></span>
+                    </div>
+                </td>
+
+                <td class="3td self-center">
+                    <b x-text="gettask.task" @click="check_click=!check_click" :class="{'ggg':check_click}" >
+                    </b>
+                </td>
+                <!-- close svg adding  -->
+                <td class="td-4" >
+                    <svg  @click="totaltask.splice(index,1)"  class="w-9 h-9 mr-2.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 9.75L14.25 12m0 0l2.25 2.25M14.25 12l2.25-2.25M14.25 12L12 14.25m-2.58 
+                     4.92l-6.375-6.375a1.125 1.125 0 010-1.59L9.42 4.83c.211-.211.498-.33.796-.33H19.5a2.25 2.25 0 012.25 2.25v10.5a2.25 2.25 0 01-2.25 2.25h-9.284c-.298 0-.585-.119-.796-.33z" />
+                  </svg>
+                </td>
+                  <!-- close svg add end , another method for remove "totaltask.splice(totaltask.indexOf(gettask),1) -->
+            </tr>
+            
+            </div>
+            
+            <!-- add row end -->
+            
+         
+    </template>
+    <!-- addin x-for end -->
+
+   
+</div>
+
+  
+  
+
+
+  
+
+</body>
+</html>
